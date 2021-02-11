@@ -1,0 +1,25 @@
+button {
+  background: #99f;
+  padding: 10px;
+  border-radius: 5px;
+  margin-left: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+input {
+  padding: 8px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+ReactFlow {
+  border: 1px solid black;
+}
+
+.Add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
