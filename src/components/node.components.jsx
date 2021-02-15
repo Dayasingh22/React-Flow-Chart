@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 
 import ReactFlow, {
   addEdge,
@@ -32,8 +32,8 @@ const Test = () => {
         data: { label: `${name}` },
         animated: true,
         position: {
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
+          x: Math.random() * 100,
+          y: Math.random() * 100,
         },
         style: {
           background: "#D6D5E6",
@@ -54,8 +54,8 @@ const Test = () => {
         data: { label: `${name}` },
         animated: true,
         position: {
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
+          x: Math.random() * 100,
+          y: Math.random() * 100,
         },
         style: {
           background: "#098058",
@@ -74,8 +74,8 @@ const Test = () => {
         data: { label: `${name}` },
         animated: true,
         position: {
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
+          x: Math.random() * 110,
+          y: Math.random() * 110,
         },
         style: {
           background: "#07cfc5",
@@ -88,9 +88,50 @@ const Test = () => {
     );
   };
 
-  const onConnect = (params) => setElements((e) => addEdge(params, e));
+  const onConnect = (params) =>
+    setElements((e) =>
+      addEdge({ ...params, animated: true, style: { stroke: "#fff" } }, e)
+    );
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
+  const [nodeName, setNodeName] = useState("");
+  const [nodeBg, setNodeBg] = useState("");
+  const [nodeX, setNodeX] = useState("");
+  const [nodeY, setNodeY] = useState("");
+  const [element, setElement] = useState({});
+  const onElementClick = (event, element) => {
+    setElement(event);
+    setNodeName(event.data.label);
+    setNodeX(event.position.x);
+    setNodeY(event.position.y);
+  };
+  console.log(element);
+  useEffect(() => {
+    setElements((els) =>
+      els.map((el) => {
+        if (el.id === element.id) {
+          el.data = {
+            ...el.data,
+            label: nodeName,
+          };
+        }
+
+        return el;
+      })
+    );
+  }, [nodeName, setElements]);
+
+  useEffect(() => {
+    setElements((els) =>
+      els.map((el) => {
+        if (el.id === element.id) {
+          el.style = { ...el.style, backgroundColor: nodeBg };
+        }
+
+        return el;
+      })
+    );
+  }, [nodeBg, setElements]);
 
   return (
     <Fragment>
@@ -136,7 +177,8 @@ const Test = () => {
       <ReactFlow
         elements={elements}
         onLoad={onLoad}
-        style={{ width: "75%", height: "90vh", marginLeft: "20rem" }}
+        style={{ width: "60%", height: "90vh", marginLeft: "20rem" }}
+        onElementClick={onElementClick}
         onElementsRemove={onElementsRemove}
         onConnect={onConnect}
         connectionLineStyle={{ stroke: "#ddd", strokeWidth: 2, animated: true }}
@@ -154,6 +196,26 @@ const Test = () => {
         />
         <Controls />
       </ReactFlow>
+      <div className="updatenode__controls">
+        <label>label:</label>
+        <input
+          value={nodeName}
+          onChange={(evt) => setNodeName(evt.target.value)}
+        />
+        <label style={{ marginTop: "10px" }}>
+          Position X: {Math.trunc(nodeX)}
+        </label>
+        <label style={{ marginTop: "10px" }}>
+          Position Y: {Math.trunc(nodeY)}
+        </label>
+        <label className="updatenode__bglabel">background:</label>
+        <input
+          style={{ width: "150px" }}
+          type="color"
+          value={nodeBg}
+          onChange={(evt) => setNodeBg(evt.target.value)}
+        />
+      </div>
     </Fragment>
   );
 };
