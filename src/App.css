@@ -1,3 +1,6 @@
+body {
+  background: black;
+}
 button {
   background: #99f;
   padding: 10px;
@@ -5,6 +8,12 @@ button {
   margin-left: 10px;
   border: none;
   cursor: pointer;
+}
+
+label {
+  font-size: 16px;
+  text-transform: capitalize;
+  margin-bottom: 10px;
 }
 
 input {
@@ -18,8 +27,44 @@ ReactFlow {
 }
 
 .Add {
+  position: fixed;
+  top: 0;
+  width: 20%;
+  height: 100vh;
+  background: white;
+}
+
+.Add .rect {
+  margin-top: 10px;
+  border-bottom: 2px solid rgb(3, 145, 114);
+  padding-bottom: 20px;
+}
+
+.Add .rect h4 {
+  text-align: center;
+}
+
+.updatenode__controls {
+  background: #fff;
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  height: 95vh;
+  padding: 10px;
+  z-index: 4;
+  font-size: 12px;
+}
+
+.updatenode__controls label {
+  display: block;
+}
+
+.updatenode__bglabel {
+  margin-top: 10px;
+}
+
+.updatenode__checkboxwrapper {
+  margin-top: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-top: 10px;
 }
